@@ -66,7 +66,7 @@ class _MoveHorizontalListviewState extends State<MoveHorizontalListview> {
             scrollDirection: Axis.horizontal,
             itemCount: widget.movies.length,
             itemBuilder: (context, index) {
-              return _SlideMovie(movie: widget.movies[index]);
+              return FadeInRight(child: _SlideMovie(movie: widget.movies[index]));
             },
             ))
 

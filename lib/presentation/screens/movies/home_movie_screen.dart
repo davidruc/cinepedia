@@ -32,12 +32,23 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     super.initState();
 
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
+    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+    ref.read(upComingMoviesProvider.notifier).loadNextPage();
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final initialLoading = ref.watch( initialLoadingProvider);
+    if( initialLoading ) return const FullScreenLoader();
+
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final moviesSlidesShow = ref.watch(moviesSlideshowProvider);
+    final popularMovies = ref.watch( popularMoviesProvider);
+    final topRatedMovies = ref.watch( topRatedMoviesProvider);
+    final upComingMovies = ref.watch( upComingMoviesProvider);
+    
 
     return  CustomScrollView(slivers: [
       const SliverAppBar(
@@ -77,26 +88,27 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                 },
               ),
               MoveHorizontalListview(
-                movies: nowPlayingMovies,
+                movies: popularMovies,
+                title: "Populares",
+                loadNextPage: () {
+                  ref.read(popularMoviesProvider.notifier).loadNextPage();
+                },
+              ),
+              MoveHorizontalListview(
+                movies: upComingMovies,
                 title: "Proximamente",
                 subtitle: "Este mes",
                 loadNextPage: () {
-                  ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                  ref.read(upComingMoviesProvider.notifier).loadNextPage();
                 },
               ),
+              
               MoveHorizontalListview(
-                movies: nowPlayingMovies,
-                title: "Populares",
-                loadNextPage: () {
-                  ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
-                },
-              ),
-              MoveHorizontalListview(
-                movies: nowPlayingMovies,
+                movies: topRatedMovies,
                 title: "Mejor calificadas",
                 subtitle: "All time",
                 loadNextPage: () {
-                  ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                  ref.read(topRatedMoviesProvider.notifier).loadNextPage();
                 },
               )
             ],

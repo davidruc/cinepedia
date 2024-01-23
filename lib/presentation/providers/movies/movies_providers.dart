@@ -6,25 +6,40 @@ import 'package:cinepedia/domain/entities/movie.dart';
 import 'package:cinepedia/presentation/providers/movies/movies_repository_provider.dart';
 
 final nowPlayingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
-  
   final fetchMoreMovies = ref.watch( movieRepositoryProvider ).getNowPlaying;
-  
   return MoviesNotifier(
     fetchMoreMovies: fetchMoreMovies,
   );
 });
 
+final topRatedMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
+  final fetchMoreMovies = ref.watch( movieRepositoryProvider ).getTopRated;
+  return MoviesNotifier(
+    fetchMoreMovies: fetchMoreMovies,
+  );
+});
+
+final upComingMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
+  final fetchMoreMovies = ref.watch( movieRepositoryProvider ).getUpcoming;
+  return MoviesNotifier(
+    fetchMoreMovies: fetchMoreMovies,
+  );
+});
+
+final popularMoviesProvider = StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
+  final fetchMoreMovies = ref.watch( movieRepositoryProvider ).getPopular;
+  return MoviesNotifier(
+    fetchMoreMovies: fetchMoreMovies,
+  );
+});
 
 typedef MovieCallback = Future<List<Movie>> Function({int page});
 
 class MoviesNotifier extends StateNotifier<List<Movie>> {
-
   int currentPage = 0;
 
   //? vamos a controlar las peticiones, creamos una bandera booleana y evitamos que mientras carga la petición haga más y más.
-
   bool isLoading = false; 
-
   MovieCallback fetchMoreMovies;
 
   MoviesNotifier({
