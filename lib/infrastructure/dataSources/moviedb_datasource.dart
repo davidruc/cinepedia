@@ -12,7 +12,8 @@ class MoviedbDatasource extends MoviesDataSource{
       baseUrl: "https://api.themoviedb.org/3",
       queryParameters: {
         'api_key': Enviroment.theMovieDbKey,
-        'language': "es-MX"
+        'language': "es-MX",
+        
       }
     )
   );
@@ -20,7 +21,10 @@ class MoviedbDatasource extends MoviesDataSource{
   @override
   Future<List<Movie>> getNowPlaying({int page = 1}) async {
     
-    final response = await dio.get("/movie/now_playing");
+    final response = await dio.get("/movie/now_playing", 
+    queryParameters: {
+      "page": page
+    });
     // cuando haga la solicitud debo procesarla con mi entidad para que mi data funcione bien.
     final movieDBResponse = MovieDbResponse.fromJson(response.data);
     final List<Movie> movies = movieDBResponse.results

@@ -12,7 +12,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _HomeView();
+    return const Scaffold(
+      body: _HomeView(),
+      bottomNavigationBar: CustomButtomNavigation(),
+    );
   }
 }
 
@@ -36,26 +39,70 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final moviesSlidesShow = ref.watch(moviesSlideshowProvider);
 
-    return Material(
-      child: Column(
-        children: [
-          const CustomAppbar(),
-
-          MoviesSlideshow(movies: moviesSlidesShow),
-          // Expanded(
-          //     child: ListView.builder(
-          //       itemCount: nowPlayingMovies.length,
-          //       itemBuilder: (context, index) {
-          //         final movie = nowPlayingMovies[index];
-          //         return ListTile(
-          //           title: Text(movie.title),
-          //         );
-          //       },
-          //     ),
-          //   ),
-          
-        ],
+    return  CustomScrollView(slivers: [
+      const SliverAppBar(
+        floating: true,
+        flexibleSpace: FlexibleSpaceBar(
+          title: CustomAppbar(),
+          titlePadding: EdgeInsets.zero, // Ajusta esta línea
+          centerTitle: false, // Ajusta esta línea
+        ),
       ),
-    );
+      SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+        return Material(
+          child: Column(
+            children: [
+             
+
+              MoviesSlideshow(movies: moviesSlidesShow),
+              // Expanded(
+              //     child: ListView.builder(
+              //       itemCount: nowPlayingMovies.length,
+              //       itemBuilder: (context, index) {
+              //         final movie = nowPlayingMovies[index];
+              //         return ListTile(
+              //           title: Text(movie.title),
+              //         );
+              //       },
+              //     ),
+              //   ),
+
+              MoveHorizontalListview(
+                movies: nowPlayingMovies,
+                title: "En cines",
+                subtitle: "lunes 20",
+                loadNextPage: () {
+                  ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                },
+              ),
+              MoveHorizontalListview(
+                movies: nowPlayingMovies,
+                title: "Proximamente",
+                subtitle: "Este mes",
+                loadNextPage: () {
+                  ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                },
+              ),
+              MoveHorizontalListview(
+                movies: nowPlayingMovies,
+                title: "Populares",
+                loadNextPage: () {
+                  ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                },
+              ),
+              MoveHorizontalListview(
+                movies: nowPlayingMovies,
+                title: "Mejor calificadas",
+                subtitle: "All time",
+                loadNextPage: () {
+                  ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                },
+              )
+            ],
+          ),
+        );
+      }, childCount: 1))
+    ]);
   }
 }
