@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cinepedia/config/helpers/human_formats.dart';
 import 'package:cinepedia/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MoveHorizontalListview extends StatefulWidget {
   const MoveHorizontalListview(
@@ -146,9 +147,12 @@ class _SlideMovie extends StatelessWidget {
                       padding: EdgeInsets.all(10),
                       child: Center(child:CircularProgressIndicator(strokeWidth: 2)));
                   }
-                  return FadeIn(
-                    child: child
-                    );
+                  return GestureDetector(
+                    onTap: () => context.push("/movie/${ movie.id}"),
+                    child: FadeIn(child: child),
+                  );
+                  
+                  
                 },
               ),
             ),

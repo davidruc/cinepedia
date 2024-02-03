@@ -1,10 +1,5 @@
-import 'dart:convert';
-
 import 'package:cinepedia/infrastructure/models/moviedb/movie_moviedb.dart';
 
-MovieDbResponse movieDbResponseFromJson(String str) => MovieDbResponse.fromJson(json.decode(str));
-
-String movieDbResponseToJson(MovieDbResponse data) => json.encode(data.toJson());
 
 class MovieDbResponse {
     final Dates? dates;
