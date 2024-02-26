@@ -25,4 +25,4 @@ class MainApp extends StatelessWidget {
       theme: AppTheme().getTheme()
     );
   }
-}
+} 

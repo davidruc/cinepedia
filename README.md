@@ -23,3 +23,10 @@ El echo de estar usando así nuestras variables de entorno es poco práctico, po
 ```
 
 Tendrá una clase con las variables de entorno estáticas para que sean fáciles de utilizar.
+
+
+3. Cambios en la entidad, ejecutar : 
+
+```hash
+flutter pub run build_runner build
+```
